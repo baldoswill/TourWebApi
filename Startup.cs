@@ -15,6 +15,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using TourWebApi.Configurations;
 using TourWebApi.Data;
+using TourWebApi.IRepository;
+using TourWebApi.Respository;
 
 namespace TourWebApi
 {
@@ -44,6 +46,8 @@ namespace TourWebApi
             });
 
             services.AddAutoMapper(typeof(MapperIntializer));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+             
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "TourWebApi", Version = "v1"});
@@ -66,7 +70,13 @@ namespace TourWebApi
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/id?");
+                // endpoints.MapControllers();
+            });
         }
     }
 }
