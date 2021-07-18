@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using TourWebApi.Configurations;
 using TourWebApi.Data;
 
 namespace TourWebApi
@@ -40,7 +42,8 @@ namespace TourWebApi
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
-            
+
+            services.AddAutoMapper(typeof(MapperIntializer));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "TourWebApi", Version = "v1"});
